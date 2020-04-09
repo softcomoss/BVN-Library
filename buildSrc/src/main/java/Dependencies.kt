@@ -5,8 +5,8 @@ object Versions {
     const val compileSdkVersion = 28
     const val minSdkVersion = 21
 
-    const val versionCode = 5
-    const val versionName = "3.0.1.0"
+    const val versionCode = 1
+    const val versionName = "1.0.0"
 
     const val gradle = "3.5.0"
 
