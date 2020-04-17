@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("ng.com.nibss.mobilebvncapturesdk.test", appContext.packageName)
+        assertEquals("ng.softcom.nibss.libbvncapture.test", appContext.packageName)
     }
 }
