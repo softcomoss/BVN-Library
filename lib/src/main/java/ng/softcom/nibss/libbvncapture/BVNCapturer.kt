@@ -132,13 +132,13 @@ class BVNCapturer private constructor(private var context: Context) {
         } else { //No Application can handle your intent
             Toast.makeText(
                 context,
-                "You need to install the BVN SDK from Google Drive.",
+                "You need to install the BVN SDK from Play Store.",
                 Toast.LENGTH_LONG
             ).show()
             context.startActivity(
                 Intent(
                     Intent.ACTION_VIEW,
-                    Uri.parse("https://drive.google.com/open?id=1adnTQD9jIiIZO7VIrGZdAhMgUJn47Xbf")
+                    Uri.parse("https://play.google.com/store/apps/details?id=ng.softcom.databeaver.sdk")
                 ).apply { addFlags(Intent.FLAG_ACTIVITY_NEW_TASK) }
             )
         }
