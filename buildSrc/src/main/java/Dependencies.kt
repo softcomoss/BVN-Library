@@ -8,12 +8,14 @@ object Versions {
     const val versionCode = 1
     const val versionName = "1.0.0"
 
+    const val androidMaven = "2.1"
     const val gradle = "3.5.0"
 
     const val kotlin = "1.3.70"
 
     const val coreKtx = "1.0.2"
 
+    const val roboelectric = "4.3"
     const val mockito = "2.25.0"
     const val jUnit = "4.12"
     const val androidJUnit = "1.1.1"
@@ -50,8 +52,10 @@ object TestingDependencies {
     const val androidTestRunner = "androidx.test:runner:${Versions.androidTestRunner}"
     const val androidTest = "androidx.test:core:${Versions.androidTest}"
     const val mockitoCore = "org.mockito:mockito-core:${Versions.mockito}"
+    const val roboelectric = "org.robolectric:robolectric:${Versions.roboelectric}"
 }
 
 object Classpaths {
+    const val androidMaven = "com.github.dcendents:android-maven-gradle-plugin:${Versions.androidMaven}"
     const val gradle = "com.android.tools.build:gradle:${Versions.gradle}"
 }

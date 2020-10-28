@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Handler
-import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import ng.softcom.nibss.libbvncapture.models.*
@@ -39,6 +38,8 @@ class BVNCapturer private constructor(private var context: Context) {
     val enrollmentStatsLiveData = MutableLiveData<EnrollmentStats>()
 
     val agentLiveData = MutableLiveData<UserModel>()
+
+    fun dummyMethod() {}
 
     fun initialize(appId: String, appVersion: String) {
         this.appId = appId
@@ -107,11 +108,6 @@ class BVNCapturer private constructor(private var context: Context) {
         complaintId: String? = null,
         enrolmentStatusFilter: String? = null
     ) {
-        val APP_VERSION = "Application Version"
-        val API_KEY = "API Key"
-        val ENTRY_ID = "Entry ID"
-        val COMPLAINT_ID = "Complaint ID"
-        val ENROLMENT_STATUS_FILTER = "Enrolment Status Filter"
 
         if (appId == null || appVersion == null) {
             throw IllegalStateException("Please call BVNCapturer.initialize() and pass the appVersion and appID")
@@ -144,14 +140,8 @@ class BVNCapturer private constructor(private var context: Context) {
         }
     }
 
-    private val uploadedEntriesCount: Int
-        get() = getAllEntriesList().filter {
-            it.timeSynced != null && it.timeSynced!! > 0
-        }.size
-
     private fun getAgent(): UserModel? {
         val cursor = context.contentResolver.query(agentUri, null, null, null, null)
-        Log.d("USER CURSOR", "${cursor?.count}")
         val userModel = UserModel()
         return if (cursor?.moveToNext() == true && cursor.count > 0) {
             userModel.userId = cursor.getString(cursor.getColumnIndex("id"))
@@ -181,7 +171,6 @@ class BVNCapturer private constructor(private var context: Context) {
 
     private fun getEnrolmentStats(): EnrollmentStats {
         val cursor = context.contentResolver.query(enrolmentStatsUri, null, null, null, null)
-        Log.d("ENROLMENT STATS CURSOR", "${cursor?.count}")
         val enrollmentStats = EnrollmentStats(0, 0, 0, 0, 0, 0)
 
         while (cursor?.moveToNext() == true) {
@@ -201,10 +190,9 @@ class BVNCapturer private constructor(private var context: Context) {
 
     private fun getAllComplainList(): MutableList<ComplaintModel> {
         val cursor = context.contentResolver.query(complainsUri, null, null, null, null)
-        Log.d("COMPLAIN CURSOR", "${cursor?.count}")
         val list = mutableListOf<ComplaintModel>()
         while (cursor?.moveToNext() == true) {
-            val _id: String = cursor.getString(cursor.getColumnIndex("_id"))
+            val id: String = cursor.getString(cursor.getColumnIndex("_id"))
             val agent: String = cursor.getString(cursor.getColumnIndex("agent"))
             val createdAt: String = cursor.getString(cursor.getColumnIndex("createdAt"))
             val issueId: String = cursor.getString(cursor.getColumnIndex("issueId"))
@@ -215,7 +203,7 @@ class BVNCapturer private constructor(private var context: Context) {
             val resolutionNote: String? = cursor.getString(cursor.getColumnIndex("resolutionNote"))
             val updatedAt: String = cursor.getString(cursor.getColumnIndex("updatedAt"))
             val complainModel = ComplaintModel(
-                _id,
+                id,
                 agent,
                 emptyList(),
                 createdAt,
@@ -236,11 +224,11 @@ class BVNCapturer private constructor(private var context: Context) {
 
     private fun getAllEntriesList(): MutableList<EntryModel> {
         val cursor = context.contentResolver.query(entriesUri, null, null, null, null)
-        Log.d("ENTRY CURSOR", "${cursor?.count}")
         val list = mutableListOf<EntryModel>()
         while (cursor?.moveToNext() == true) {
             val entryId: String = cursor.getString(cursor.getColumnIndex("entryId"))
             val currentStep: Int = cursor.getInt(cursor.getColumnIndex("currentStep"))
+            val hasCompleted: Boolean = cursor.getInt(cursor.getColumnIndex("hasCompleted")) == 1
             val entryTitle: String? = cursor.getString(cursor.getColumnIndex("entryTitle"))
             val dateLastEdited: Long? = cursor.getLong(cursor.getColumnIndex("dateLastEdited"))
             val timeSynced: Long? = cursor.getLong(cursor.getColumnIndex("timeSynced"))
@@ -270,6 +258,11 @@ class BVNCapturer private constructor(private var context: Context) {
         startSDKApp(REMOTE_ENROLMENTS_ACTION, context, enrolmentStatusFilter = statusFilter)
 
     companion object : SingletonWrapper<BVNCapturer, Context>(::BVNCapturer) {
+        private const val APP_VERSION = "Application Version"
+        private const val API_KEY = "API Key"
+        private const val ENTRY_ID = "Entry ID"
+        private const val COMPLAINT_ID = "Complaint ID"
+        private const val ENROLMENT_STATUS_FILTER = "Enrolment Status Filter"
 
         private const val CAPTURE_BVN_ACTION =
             "ng.softcom.databeaver.sdk.intents.CAPTURE_BVN_ACTION"
