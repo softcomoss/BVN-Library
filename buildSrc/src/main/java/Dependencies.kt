@@ -13,8 +13,13 @@ object Versions {
     const val kotlin = "1.3.70"
 
     const val coreKtx = "1.0.2"
+
+    const val mockito = "2.25.0"
     const val jUnit = "4.12"
     const val androidJUnit = "1.1.1"
+    const val androidTest = "1.1.0"
+    const val androidTestRunner = "1.1.1"
+
     const val lifecycle = "2.0.0"
 
     const val okhttp = "3.12.0"
@@ -42,6 +47,9 @@ object AndroidXDependencies {
 object TestingDependencies {
     const val jUnit = "junit:junit:${Versions.jUnit}"
     const val androidJUnit = "androidx.test.ext:junit:${Versions.androidJUnit}"
+    const val androidTestRunner = "androidx.test:runner:${Versions.androidTestRunner}"
+    const val androidTest = "androidx.test:core:${Versions.androidTest}"
+    const val mockitoCore = "org.mockito:mockito-core:${Versions.mockito}"
 }
 
 object Classpaths {
