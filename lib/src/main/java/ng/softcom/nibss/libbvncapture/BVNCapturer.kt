@@ -128,7 +128,7 @@ class BVNCapturer private constructor(private var context: Context) {
         } else { //No Application can handle your intent
             Toast.makeText(
                 context,
-                "You need to install the BVN SDK from Google Drive.",
+                "You need to install the BVN SDK from Play Store.",
                 Toast.LENGTH_LONG
             ).show()
             context.startActivity(
